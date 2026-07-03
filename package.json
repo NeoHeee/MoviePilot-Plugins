@@ -1,0 +1,16 @@
+{
+  "MagicPushMsg": {
+    "name": "MagicPush消息通知",
+    "description": "将MoviePilot通知转发到MagicPush，并支持通知类型筛选、海报和跳转链接。",
+    "labels": "消息通知,MagicPush",
+    "version": "1.0.0",
+    "icon": "magicpush.png",
+    "author": "Neo",
+    "level": 1,
+    "system_version": ">=2.0.0,<3",
+    "history": {
+      "v1.0.0": "首次发布：支持MagicPush Token接口、通知类型筛选、测试通知、海报及跳转链接。"
+    },
+    "v2": true
+  }
+}
