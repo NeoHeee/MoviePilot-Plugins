@@ -1,13 +1,6 @@
-# MoviePilot MagicPush 插件仓库
+# MoviePilot V3 MagicPush 消息通知插件
 
-本仓库同时保留 MoviePilot V2 与 V3 实现：V2 插件位于 `plugins.v2/`，V3 插件位于 `plugins.v3/`，对应市场索引分别为 `package.v2.json` 与 `package.v3.json`。两个版本相互独立，V3 安装不会覆盖可用的 V2 源码。
-
-当前提供两个插件：
-
-- **MagicPush消息通知**：将 `NoticeMessage` 通知通过 MagicPush Token 推送接口发送。
-- **MagicPush控制中心**：转发通知和命令结果，并提供带令牌保护的手机控制页。
-
-MoviePilot 会按宿主版本选择对应索引。V2 用户继续使用现有 V2 版本；V3 用户安装 `package.v3.json` 中的 2.0.0 版本。
+本插件监听 MoviePilot V3 的 `NoticeMessage` 通知事件，并通过 MagicPush 的 Token 推送接口发送消息。
 
 ## 功能
 
@@ -17,6 +10,7 @@ MoviePilot 会按宿主版本选择对应索引。V2 用户继续使用现有 V2
 - 支持在正文中附加海报
 - 支持传递 MoviePilot 消息跳转链接
 - 支持一键发送测试通知
+- 支持将微信、Telegram等客户端的定向命令回复同步到MagicPush
 - 自动跳过指定原生渠道的交互回复，减少重复消息
 
 ## MagicPush 端准备
@@ -33,12 +27,25 @@ curl -X POST "http://你的MagicPush地址:端口/api/push/你的Token" \
   -d '{"title":"MagicPush测试","content":"接口工作正常","type":"markdown"}'
 ```
 
-## 推荐安装方式：添加第三方插件仓库
+## 推荐安装方式：自建第三方插件仓库
 
-1. 在 MoviePilot V2 或 V3 的插件市场设置中添加该 GitHub 仓库地址。
-2. 刷新插件市场，搜索“MagicPush消息通知”并安装。
-3. 安装后进入插件配置页面填写参数。
+1. 在 GitHub 新建一个仓库。
+2. 将本压缩包解压后的所有内容上传到仓库根目录，目录结构不要改变。
+3. 在 MoviePilot V3 的插件市场设置中添加该 GitHub 仓库地址。
+4. 刷新插件市场，搜索“MagicPush消息通知”并安装。
+5. 安装后进入插件配置页面填写参数。
 
+仓库根目录应当是：
+
+```text
+package.json
+package.v3.json
+icons/
+  magicpush.png
+plugins.v3/
+  magicpushmsg/
+    __init__.py
+```
 
 ## 插件配置
 
@@ -48,6 +55,7 @@ curl -X POST "http://你的MagicPush地址:端口/api/push/你的Token" \
 - **接收的通知类型**：留空代表全部接收
 - **正文附加海报**：开启后将 MoviePilot 海报地址附加到正文
 - **标题前缀**：例如 `[MoviePilot]`
+- **转发客户端定向消息（命令回复）**：开启后，将普通命令回复同步到MagicPush
 
 填写完成后：
 
@@ -62,5 +70,15 @@ curl -X POST "http://你的MagicPush地址:端口/api/push/你的Token" \
 - 海报是否能显示取决于 MagicPush 下游通知渠道是否支持 Markdown 或 HTML 图片。
 - MagicPush 和 MoviePilot 位于不同 Docker 网络时，请使用双方均可访问的 LAN 地址，不要填写 `localhost` 或 `127.0.0.1`。
 - 如果填写的是完整地址 `/api/push/Token`，插件也能识别；通常只需填写 MagicPush 根地址和 Token。
-- 建议仅在局域网或HTTPS反向代理下使用控制页。
-- 不要把带控制令牌的控制页地址公开到互联网。
+
+
+## 与“命令管理”插件联动
+
+1. “命令管理”中仍选择微信或 Telegram 等实际交互客户端。
+2. 在 MagicPush 消息通知插件中开启“转发客户端定向消息（命令回复）”。
+3. 用户从微信或 Telegram 发送 MoviePilot 命令。
+4. MoviePilot 的普通文本回复会发回原客户端，同时复制到 MagicPush。
+
+MagicPush 是单向通知出口，不能代替微信或 Telegram 接收命令，也不会出现在“命令管理”的客户端下拉框中。
+
+部分带按钮、媒体选择列表或种子选择列表的交互消息，不一定经过普通通知事件，因此可能只在原交互客户端显示，无法完整复制到 MagicPush。

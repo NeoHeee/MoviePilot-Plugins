@@ -12,7 +12,8 @@
       "v1.1.0": "新增客户端定向消息转发开关，可将微信、Telegram命令的普通文本回复同步到MagicPush。",
       "v1.0.0": "首次发布：支持MagicPush Token接口、通知类型筛选、测试通知、海报及跳转链接。"
     },
-    "v2": true
+    "v2": true,
+    "v3": false
   },
   "MagicPushControl": {
     "name": "MagicPush控制中心",
@@ -26,6 +27,7 @@
     "history": {
       "v1.0.0": "首次发布：MagicPush入站通知、手机控制页、命令管理、安全API和复杂结果文字摘要。"
     },
-    "v2": true
+    "v2": true,
+    "v3": false
   }
 }
