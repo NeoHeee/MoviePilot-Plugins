@@ -3,29 +3,29 @@
     "name": "MagicPush消息通知",
     "description": "将MoviePilot通知转发到MagicPush，并支持通知类型筛选、海报、跳转链接及客户端命令回复转发。",
     "labels": "消息通知,MagicPush",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "icon": "magicpush.png",
     "author": "Neo",
     "level": 1,
-    "system_version": ">=2.0.0,<3",
+    "system_version": ">=3.0.0,<4",
     "history": {
+      "v2.0.0": "迁移至MoviePilot V3，改用稳定SDK事件、日志和网络接口。",
       "v1.1.0": "新增客户端定向消息转发开关，可将微信、Telegram命令的普通文本回复同步到MagicPush。",
       "v1.0.0": "首次发布：支持MagicPush Token接口、通知类型筛选、测试通知、海报及跳转链接。"
-    },
-    "v3": false
+    }
   },
   "MagicPushControl": {
     "name": "MagicPush控制中心",
     "description": "不依赖系统通知客户端，将MoviePilot通知和命令结果推送到MagicPush，并提供手机控制页。",
     "labels": "消息通知,命令管理,MagicPush",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "icon": "magicpushcontrol.png",
     "author": "Neo",
     "level": 1,
-    "system_version": ">=2.4.4,<3",
+    "system_version": ">=3.0.0,<4",
     "history": {
+      "v2.0.0": "迁移至MoviePilot V3，适配稳定SDK、统一API响应、原生HTML响应声明和后台资源清理。",
       "v1.0.0": "首次发布：MagicPush入站通知、手机控制页、命令管理、安全API和复杂结果文字摘要。"
-    },
-    "v3": false
+    }
   }
 }
